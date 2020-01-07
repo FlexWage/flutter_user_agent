@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 class FlutterUserAgent {
   static const MethodChannel _channel = MethodChannel('flutter_user_agent');
@@ -15,6 +16,9 @@ class FlutterUserAgent {
   /// the native platform.
   static Future init({force: false}) async {
     if (_properties == null || force) {
+      // As per https://groups.google.com/forum/#!msg/flutter-announce/sHAL2fBtJ1Y/mGjrKH3dEwAJ
+      WidgetsFlutterBinding.ensureInitialized();
+
       _properties =
           Map.unmodifiable(await _channel.invokeMethod('getProperties'));
     }
